@@ -156,7 +156,12 @@ async function getRefs() {
     
     page = params.page
     //get refs info from server
-    const response = await fetch(`${backendURL}/refs?${queryType}=${queryFor}&page=${page}`)
+    const response = await fetch(`${backendURL}/refs?${queryType}=${queryFor}&page=${page}`,{
+          mode: 'cors',
+          headers: {
+            'Access-Control-Allow-Origin':'*'
+          }}
+    )
     const refsData = await response.json()
     const refs = refsData.refs
     const finalPage = refsData.finalPage
