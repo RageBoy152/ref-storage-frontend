@@ -432,7 +432,7 @@ function displayCats(data) {
 }
 
 async function getCats() {
-    const response = await fetch("${backendURL}/categories")
+    const response = await fetch(`${backendURL}/categories`)
     const catData = JSON.parse(await response.json())
 
     displayCats(catData)
