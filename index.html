@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="ref-styles.css">
+</head>
+<body>
+    <div class="modal fade" id="addRefModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Add Ref</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="add-ref-modal-body" class="modal-body">
+              <form class="add-ref-form needs-validation" novalidate>
+                <div class="form-floating mb-3">
+                    <input required type="text" class="form-control" id="title" placeholder="Title">
+                    <label for="title">Title</label>
+                    <div class="invalid-feedback">
+                        Please provide a title
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="desc" placeholder="Descripiton" autocomplete="off">
+                    <label for="desc">Description (optional)</label>
+                </div>
+                <div class="mb-3">
+                    <select id="refCategorySelect" class="form-select" aria-label="Default select example" required>
+                        <option value="" selected>Category</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a category
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="img" class="form-label">Image</label>
+                    <input type="file" name="image" class="form-control" id="img" accept=".jpg,.png,.jpeg,.gif" required>
+                    <div class="invalid-feedback">
+                        Please upload a reference image
+                    </div>
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="add-ref-modal-btn-primary" type="submit" class="btn btn-primary">Add Ref</button>
+                </div>
+            </form>
+          </div>
+        </div>
+    </div>
+
+    <!-- modals -->
+    <div class="modal fade" id="faqModal" tabindex="-1" aria-labelledby="faqModalLabel" aria-hidden="true"></div>
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true"></div>
+    <div class="modal fade" id="report-a-bugModal" tabindex="-1" aria-labelledby="report-a-bugModalLabel" aria-hidden="true"></div>
+    <div class="modal fade" id="become-a-contributorModal" tabindex="-1" aria-labelledby="become-a-contributorModalLabel" aria-hidden="true"></div>
+    <div class="modal fade" id="legalModal" tabindex="-1" aria-labelledby="legalModalLabel" aria-hidden="true"></div>
+    <div class="modal fade" id="change-logsModal" tabindex="-1" aria-labelledby="change-logsModalLabel" aria-hidden="true"></div>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div id="main-nav" class="col">
+                <div id="main-top-nav" class="row d-inline-flex align-items-center h-100 w-100 text-center">
+                    <div id="browse" class="col ms-2">
+                        <nav style="font-size: 1vw;" id="breadcrumb" aria-label="breadcrumb"></nav>
+                    </div>
+                    <div class="col-1 lead" style="margin-left:-5vw;"><a href=""><i class="bi bi-discord fs-3"></i></a></div>
+                    <div class="col-5 ms-3 lead">
+                        <form id="searchForm" class="input-group">
+                            <input type="text" class="form-control" id="searchBar" placeholder="Search All Refs" aria-label="search" aria-describedby="searchAddon">
+                            <button type="submit" class="input-group-text" id="searchAddon"><i class="bi bi-search"></i></button>
+                        </form>
+                    </div>
+                    <!-- <div class="col-1 lead"><a href="">About</a></div> -->
+                    <div class="col-2 ms-auto lead"><a onclick="showAddRef()" class="btn-dark btn" data-bs-toggle="modal" data-bs-target="#addRefModal">Add Ref <i class="ms-2 bi bi-plus-lg"></i></a></div>
+                    <div class="col-1 lead ms-3" id="loggedOutProfile">
+                        <div class="btn-group">
+                            <a type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fs-2 bi bi-person-circle"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="https://discord.com/api/oauth2/authorize?client_id=1093332973295767584&redirect_uri=http%3A%2F%2Flocalhost%3A5500%2Fclient%2Frefs.html&response_type=token&scope=identify">Login</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-1 lead ms-3" id="loggedInProfile">
+                        <div class="btn-group">
+                            <a type="button" class="dropdown-toggle loggedInPfpLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="" id="loggedInPfp">
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="side-bar-nav" class="col-2" style="height:90vh">
+                <div class="row mt-2" id="side-nav-wrapper"></div>
+            </div>
+            <div id="main" class="col bg-body-secondary pb-5 pt-5" style="height:90vh">
+                <!-- notifications -->
+                <div id="toasts" class="toast-container position-fixed end-0 p-3" style="margin-top: -8vh;"></div>
+
+                <nav aria-label="pageNav" class="ms-5">
+                    <ul class="pagination" id="pageNavTop">
+                      
+                    </ul>
+                </nav>
+                <div id="refs-container" class="row justify-content-center gy-5"></div>
+                <nav aria-label="pageNav" class="d-flex justify-content-center mt-2">
+                    <ul class="pagination" id="pageNavBottom">
+                      
+                    </ul>
+                </nav>
+                <div id="showFooterBtn" class="col-1 ms-auto lead"><a onclick="showFooter()" class="btn-dark btn"><i class="bi bi-sort-up"></i></a></div>
+            </div>
+            <div id="footer" class="footer">
+                <div id="hideFooterBtn" class="col-1 ms-auto lead"><a onclick="hideFooter()" class="hideFooterBtn"><i class="bi bi-sort-down"></i></a></div>
+                <div class="row justify-content-center" id="footer-row">
+                    <div class="col-2"></div>
+                    <div class="col-4">
+                        <div class="col-12"><a onclick="showModal(this.innerText)">FAQ</a></div>
+                        <div class="col-12"><a onclick="showModal(this.innerText)">Feedback</a></div>
+                        <div class="col-12"><a onclick="showModal(this.innerText)">Report a bug</a></div>
+                    </div>
+                    <div class="col-4">
+                        <div class="col-12"><a onclick="showModal(this.innerText)">Become a Contributor</a></div>
+                        <div class="col-12"><a onclick="showModal(this.innerText)">Legal</a></div>
+                        <div class="col-12"><a onclick="showModal(this.innerText)">Change Logs</a></div>
+                    </div>
+                    <div id="footer-bottom" class="d-inline-flex col-7 justify-self-center">
+                        <p class="copy-right">&copy; Salt and Peper Industries, 2023</p>
+                        <p class="made-by ms-auto">Website produced by Rage Boy</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js" integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+    <script>
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+        })
+        if (params.search == 'true') {
+                //display search breadcrumb
+                document.getElementById('breadcrumb').style.display = 'block'
+                document.getElementById('breadcrumb').innerHTML = `
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item">Search Refs</li>
+                    <li class="breadcrumb-item active" aria-current="page">${params.search_query}</li>
+                </ol>
+                `
+        }   else if (params.search == 'false') {
+            if (params.underTopCat == null || params.underSubCat == null || params.refCategory == null) {
+            document.getElementById('breadcrumb').style.display = 'none'
+            }
+                
+            else {
+                //display cat breadcrumb
+                document.getElementById('breadcrumb').innerHTML = `
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item">${params.underTopCat}</li>
+                    <li class="breadcrumb-item">${params.underSubCat}</li>
+                    <li class="breadcrumb-item active" aria-current="page">${params.refCategory}</li>
+                </ol>
+                `
+            }
+        }
+        
+    </script>
+</body>
+</html>
