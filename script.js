@@ -1,5 +1,5 @@
-const proxy = 'https://ref-storage-api.onrender.com'
-//const proxy = 'http:localhost:3001'
+const backendURL = 'https://ref-storage-api.onrender.com'
+//const backendURL = 'http:localhost:3001'
 
 function setAttributes(el, attrs) {
     for(var key in attrs) {
@@ -156,7 +156,7 @@ async function getRefs() {
     
     page = params.page
     //get refs info from server
-    const response = await fetch(`${proxy}/refs?${queryType}=${queryFor}&page=${page}`)
+    const response = await fetch(`${backendURL}/refs?${queryType}=${queryFor}&page=${page}`)
     const refsData = await response.json()
     const refs = refsData.refs
     const finalPage = refsData.finalPage
@@ -217,12 +217,12 @@ async function getRefs() {
 
     for (let i=0;i<refs.length;i++) {
         //get uploader info from discord
-        const res = await fetch(`${proxy}/discordUser?userId=${refs[i].uploadedBy}`)
+        const res = await fetch(`${backendURL}/discordUser?userId=${refs[i].uploadedBy}`)
         const userInfo = await res.json()
 
 
         //set vars
-        imgUrl = `${proxy}/refs/images?refId=${refs[i].refId}`
+        imgUrl = `${backendURL}/refs/images?refId=${refs[i].refId}`
         title = refs[i].title
         desc = refs[i].description
         commentCount = refs[i].commentCount
@@ -308,7 +308,7 @@ async function getRefs() {
                 let comment = refs[i].comments[x].comment
 
                 //get commenter info from disc
-                const resCom = await fetch(`${proxy}/discordUser?userId=${commenterId}`)
+                const resCom = await fetch(`${backendURL}/discordUser?userId=${commenterId}`)
                 const commenterInfo = await resCom.json()
 
                 let commenterPfpUrl = `https://cdn.discordapp.com/avatars/${commenterInfo.id}/${commenterInfo.avatar}?size=1024`
@@ -349,7 +349,7 @@ async function getRefs() {
                         replierId = refs[i].comments[x].replies[y].commentedBy
 
                         // get commenter info from disc
-                        const resComRep = await fetch(`${proxy}/discordUser?userId=${replierId}`)
+                        const resComRep = await fetch(`${backendURL}/discordUser?userId=${replierId}`)
                         const commenterInfoRep = await resComRep.json()
 
                         replierPfpUrl = `https://cdn.discordapp.com/avatars/${commenterInfoRep.id}/${commenterInfoRep.avatar}?size=1024`
@@ -432,7 +432,7 @@ function displayCats(data) {
 }
 
 async function getCats() {
-    const response = await fetch("${proxy}/categories")
+    const response = await fetch("${backendURL}/categories")
     const catData = JSON.parse(await response.json())
 
     displayCats(catData)
@@ -490,7 +490,7 @@ async function showAddRef() {
     userId = discordData.id
 
     //checks user authority
-    const authorityResRaw = fetch(`${proxy}/authorityCheck?type=publisher&userId=${userId}`)
+    const authorityResRaw = fetch(`${backendURL}/authorityCheck?type=publisher&userId=${userId}`)
     const authorityRes = await authorityResRaw.json()
     if (authorityRes.status == 'err') {
         //displays err for incorrect authority
@@ -567,7 +567,7 @@ async function addRef(form) {
     categoryPath = form.refCategorySelect.options[refCategorySelect.selectedIndex].innerText,
     userId = userId
 
-    const rawResponse = await fetch(`${proxy}/new-ref?title=${title}&desc=${description}&cat=${category}&catPath=${categoryPath}&userId=${userId}`, {
+    const rawResponse = await fetch(`${backendURL}/new-ref?title=${title}&desc=${description}&cat=${category}&catPath=${categoryPath}&userId=${userId}`, {
         method: 'POST',
         headers: {
             cors: '*'
@@ -683,7 +683,7 @@ async function enterComment(type,refId,userId) {
         commentValue = document.getElementById(`${type}InputFor${refId}`).value
         if (commentValue != '') {
             //post comment to server
-            const rawResponseCom = await fetch(`${proxy}/add-comment?type=${type}&toRef=${refId}&comment=${commentValue}&userId=${userId}`, {
+            const rawResponseCom = await fetch(`${backendURL}/add-comment?type=${type}&toRef=${refId}&comment=${commentValue}&userId=${userId}`, {
             method: 'POST',
             headers: {
                 cors: '*'
@@ -720,7 +720,7 @@ async function enterComment(type,refId,userId) {
 }
 
 async function incDownloadCount(refId) {
-    await fetch(`${proxy}/incDownloadCount?ref=${refId}`)
+    await fetch(`${backendURL}/incDownloadCount?ref=${refId}`)
 }
 
 function showNotifications() {
