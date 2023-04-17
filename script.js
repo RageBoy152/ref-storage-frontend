@@ -103,6 +103,34 @@ function displayFinalLinks(finalLink, subCat,topCat) {
     subCatContainer.appendChild(finalLinkDiv)
 }
 
+async function getImgUrl(refId) {
+    dataRefPath = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refId}`
+    await fetch(`dataRefPath.png`).then(res=>{})
+        if (res.status == 404) {
+            await fetch(`dataRefPath.jpg`).then(res=>{
+                if (res.status == 404) {
+                    await fetch(`dataRefPath.jpeg`).then(res=>{
+                        if (res.status == 404) {
+                            await fetch(`dataRefPath.gif`).then(res=>{
+                                if (res.status == 404)
+                                    imgExtension = ''
+                                else
+                                    imgExtension = '.gif'
+                            })
+                        }   else
+                            imgExtension = '.jpeg'
+                    })
+                }   else
+                    imgExtension = '.jpg'
+            })
+        }   else
+            imgExtension = '.png'
+    })
+    imgUrl = `${dataRefPath}${imgExtention}`
+    if (imgExtension == '')
+        imgUrl = ''
+    return imgUrl
+}
 
 //get refs
 async function getRefs() {
@@ -222,31 +250,7 @@ async function getRefs() {
 
 
         //set vars
-        dataRefPath = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refs[i].refId}`
-        await fetch(`dataRefPath.png`).then(res=>{})
-            if (res.status == 404) {
-                await fetch(`dataRefPath.jpg`).then(res=>{
-                    if (res.status == 404) {
-                        await fetch(`dataRefPath.jpeg`).then(res=>{
-                            if (res.status == 404) {
-                                await fetch(`dataRefPath.gif`).then(res=>{
-                                    if (res.status == 404)
-                                        imgExtension = ''
-                                    else
-                                        imgExtension = '.gif'
-                                })
-                            }   else
-                                imgExtension = '.jpeg'
-                        })
-                    }   else
-                        imgExtension = '.jpg'
-                })
-            }   else
-                imgExtension = '.png'
-        })
-        imgUrl = `${dataRefPath}${imgExtention}`
-        if (imgExtension == '')
-            imgUrl = ''
+        imgUrl = getImgUrl(refs[i].refId)
         
         title = refs[i].title
         desc = refs[i].description
