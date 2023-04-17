@@ -229,9 +229,14 @@ async function getRefs() {
 
 
         //get img url
-        const imgUrlRaw = await fetch(`${backendURL}/refs/images?refId=${refs[i].refId}`)
-        const imgUrl = await imgUrlRaw.json()
-        //imgUrl = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${filename}`
+        const refImgRaw = await fetch(`${backendURL}/refs/images?refId=${refs[i].refId}`)
+        const refImg = await refImgRaw.json()
+        if (refImg.filename == 'err') {
+            console.log("Couldn't find img for ref #"+refs[i].refId)
+            imgUrl = ''
+        }   else {
+            imgUrl = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refImg.filename}`
+        }
         
         //set vars
         title = refs[i].title
