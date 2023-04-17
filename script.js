@@ -222,17 +222,9 @@ async function getRefs() {
 
 
         //get img url
-        const octokit = new Octokit({
-          //auth: 'YOUR-TOKEN'
-        })
-
-        await octokit.request('GET /repos/RageBoy152/ref-storage-api/git/trees/c80be1e1dffee3230071a69f8d4e7223cfbeeab9').then(res=>{
-            for (let o=0;0<res.tree.length;o++) {
-                if (res.tree[o].path.split(".")[0] == refs[i].refId)
-                    filename = res.tree[o].path
-            }
-        })
-        imgUrl = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${filename}`
+        const imgUrlRaw = await fetch(`${backendURL}/refs/images?refId=${refs[i].refId}`)
+        const imgUrl = await imgUrlRaw.json()
+        //imgUrl = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${filename}`
         
         //set vars
         title = refs[i].title
