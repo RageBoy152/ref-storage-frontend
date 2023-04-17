@@ -225,9 +225,12 @@ async function getRefs() {
         imgUrl = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refs[i].refId}`
         imgExtension = ''
         await fetch(`${imgUrl}.png`).then(res=>{if(res.status!=404){imgExtension='.png'}})
-        await fetch(`${imgUrl}.jpg`).then(res=>{if(res.status!=404){imgExtension='.jpg'}})
-        await fetch(`${imgUrl}.jpeg`).then(res=>{if(res.status!=404){imgExtension='.jpeg'}})
-        await fetch(`${imgUrl}.gif`).then(res=>{if(res.status!=404){imgExtension='.gif'}})
+        if (imgExtension == '')
+            await fetch(`${imgUrl}.jpg`).then(res=>{if(res.status!=404){imgExtension='.jpg'}})
+        if (imgExtension == '')
+            await fetch(`${imgUrl}.jpeg`).then(res=>{if(res.status!=404){imgExtension='.jpeg'}})
+        if (imgExtension == '')
+            await fetch(`${imgUrl}.gif`).then(res=>{if(res.status!=404){imgExtension='.gif'}})
         
         //set vars
         imgUrl = imgUrl+imgExtension
