@@ -222,7 +222,10 @@ async function getRefs() {
 
 
         //set vars
-        imgUrl = `${backendURL}/refs/images?refId=${refs[i].refId}`
+        imgUrl = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refs[i].refId}.png` ||
+                 `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refs[i].refId}.jpg` ||
+                 `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refs[i].refId}.jpeg` ||
+                 `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refs[i].refId}.gif`
         title = refs[i].title
         desc = refs[i].description
         commentCount = refs[i].commentCount
