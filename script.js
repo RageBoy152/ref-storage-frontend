@@ -222,18 +222,16 @@ async function getRefs() {
 
 
         //get img url
-        imgUrl = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refs[i].refId}`
-        imgExtension = ''
-        await fetch(`${imgUrl}.png`).then(res=>{if(res.status!=404){imgExtension='.png'}})
-        if (imgExtension == '')
-            await fetch(`${imgUrl}.jpg`).then(res=>{if(res.status!=404){imgExtension='.jpg'}})
-        if (imgExtension == '')
-            await fetch(`${imgUrl}.jpeg`).then(res=>{if(res.status!=404){imgExtension='.jpeg'}})
-        if (imgExtension == '')
-            await fetch(`${imgUrl}.gif`).then(res=>{if(res.status!=404){imgExtension='.gif'}})
+        await fetch('https://api.github.com/repos/RageBoy152/ref-storage-api/git/trees/c80be1e1dffee3230071a69f8d4e7223cfbeeab9').then(res=>{
+            for (let o = 0;o<res.tree.length;o++) {
+                if (res.tree[o].path.split(".")[0] == refs[i].refId)
+                    filename = res.tree[o].path
+                    break
+            }
+        })
+        imgUrl = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${filename}`
         
         //set vars
-        imgUrl = imgUrl+imgExtension
         title = refs[i].title
         desc = refs[i].description
         commentCount = refs[i].commentCount
