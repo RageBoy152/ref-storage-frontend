@@ -1,5 +1,3 @@
-const { Octokit, App } = require("https://cdn.skypack.dev/octokit")
-
 const backendURL = 'https://ref-storage-api.onrender.com'
 //const backendURL = 'http:localhost:3001'
 
