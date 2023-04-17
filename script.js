@@ -222,11 +222,14 @@ async function getRefs() {
 
 
         //get img url
-        await fetch('https://api.github.com/repos/RageBoy152/ref-storage-api/git/trees/c80be1e1dffee3230071a69f8d4e7223cfbeeab9').then(res=>{
-            for (let o = 0;o<res.tree.length;o++) {
+        const octokit = new Octokit({
+          //auth: 'YOUR-TOKEN'
+        })
+
+        await octokit.request('GET /repos/RageBoy152/ref-storage-api/git/trees/c80be1e1dffee3230071a69f8d4e7223cfbeeab9').then(res=>{
+            for (let o=0;0<res.tree.length;o++) {
                 if (res.tree[o].path.split(".")[0] == refs[i].refId)
                     filename = res.tree[o].path
-                    break
             }
         })
         imgUrl = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${filename}`
