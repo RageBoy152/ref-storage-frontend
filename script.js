@@ -222,10 +222,32 @@ async function getRefs() {
 
 
         //set vars
-        imgUrl = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refs[i].refId}.png` ||
-                 `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refs[i].refId}.jpg` ||
-                 `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refs[i].refId}.jpeg` ||
-                 `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refs[i].refId}.gif`
+        dataRefPath = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refs[i].refId}`
+        await fetch(`dataRefPath.png`).then(res=>{})
+            if (res.status == 404) {
+                await fetch(`dataRefPath.jpg`).then(res=>{
+                    if (res.status == 404) {
+                        await fetch(`dataRefPath.jpeg`).then(res=>{
+                            if (res.status == 404) {
+                                await fetch(`dataRefPath.gif`).then(res=>{
+                                    if (res.status == 404)
+                                        imgExtension = ''
+                                    else
+                                        imgExtension = '.gif'
+                                })
+                            }   else
+                                imgExtension = '.jpeg'
+                        })
+                    }   else
+                        imgExtension = '.jpg'
+                })
+            }   else
+                imgExtension = '.png'
+        })
+        imgUrl = `${dataRefPath}${imgExtention}`
+        if (imgExtension == '')
+            imgUrl = ''
+        
         title = refs[i].title
         desc = refs[i].description
         commentCount = refs[i].commentCount
@@ -269,7 +291,7 @@ async function getRefs() {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body imgModalBody">
-                    <img class="fullImg" src="${imgUrl}">
+                    <img class="fullImg" src="${imgUrl}" alt="Image Not Found!">
                 </div>
                 </div>
             </div>
