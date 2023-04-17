@@ -103,34 +103,6 @@ function displayFinalLinks(finalLink, subCat,topCat) {
     subCatContainer.appendChild(finalLinkDiv)
 }
 
-async function getImgUrl(refId) {
-    dataRefPath = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refId}`
-    await fetch(`dataRefPath.png`).then(res=>{})
-        if (res.status == 404) {
-            await fetch(`dataRefPath.jpg`).then(res=>{
-                if (res.status == 404) {
-                    await fetch(`dataRefPath.jpeg`).then(res=>{
-                        if (res.status == 404) {
-                            await fetch(`dataRefPath.gif`).then(res=>{
-                                if (res.status == 404)
-                                    imgExtension = ''
-                                else
-                                    imgExtension = '.gif'
-                            })
-                        }   else
-                            imgExtension = '.jpeg'
-                    })
-                }   else
-                    imgExtension = '.jpg'
-            })
-        }   else
-            imgExtension = '.png'
-    })
-    imgUrl = `${dataRefPath}${imgExtention}`
-    if (imgExtension == '')
-        imgUrl = ''
-    return imgUrl
-}
 
 //get refs
 async function getRefs() {
@@ -249,9 +221,16 @@ async function getRefs() {
         const userInfo = await res.json()
 
 
-        //set vars
-        imgUrl = getImgUrl(refs[i].refId)
+        //get img url
+        imgUrl = `https://raw.githubusercontent.com/RageBoy152/ref-storage-api/main/data/refs/${refs[i].refId}`
+        imgExtension = ''
+        await fetch(`${imgUrl}.png`).then(res=>{if(res.status!=404){imgExtension='.png'}})
+        await fetch(`${imgUrl}.jpg`).then(res=>{if(res.status!=404){imgExtension='.jpg'}})
+        await fetch(`${imgUrl}.jpeg`).then(res=>{if(res.status!=404){imgExtension='.jpeg'}})
+        await fetch(`${imgUrl}.gif`).then(res=>{if(res.status!=404){imgExtension='.gif'}})
         
+        //set vars
+        imgUrl = imgUrl+imgExtension
         title = refs[i].title
         desc = refs[i].description
         commentCount = refs[i].commentCount
