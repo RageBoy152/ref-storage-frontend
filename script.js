@@ -494,8 +494,8 @@ async function showAddRef() {
         document.getElementById('add-ref-modal-body').innerHTML = `
             <p>You must be logged in to upload a ref.</p>
         `
-        document.getElementById('add-ref-modal-btn-primary').onclick = ()=>{window.location = 'https://discord.com/api/oauth2/authorize?client_id=1093332973295767584&redirect_uri=http%3A%2F%2Flocalhost%3A5500%2Fclient%2Frefs.html&response_type=token&scope=identify'}
-        document.getElementById('add-ref-modal-btn-primary').innerText = 'Login'
+        document.getElementById('add-ref-modal-btn-primary').onclick = ()=>{window.location = '#'}
+        document.getElementById('add-ref-modal-btn-primary').innerHTML = '<s>Login</s> (coming in v1.1)'
     }
 
     //get uesr id from discord
