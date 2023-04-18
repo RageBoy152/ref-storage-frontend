@@ -153,14 +153,17 @@
     <script type="module">import Octokit from "https://cdn.skypack.dev/octokit"</script>
     <script src="script.js"></script>
     <script>
-        await fetch('https://ref-storage-api.onrender.com').then(res=>{
-            if (res.status == 404) {
-                document.getElementById('refs-container').innerHTML = '
-                    <div class="no-content-msg">
-                        <p class="display-6 fs-2 text-center mt-3">The server is down :( <br> Please try again in 2 minutes.</p>
-                    </div>'
-            }
-        })
+        async function getServer404() {
+            await fetch('https://ref-storage-api.onrender.com').then(res=>{
+                if (res.status == 404) {
+                    document.getElementById('refs-container').innerHTML = '
+                        <div class="no-content-msg">
+                            <p class="display-6 fs-2 text-center mt-3">The server is down :( <br> Please try again in 2 minutes.</p>
+                        </div>'
+                }
+            })
+        }
+        getServer404()
         const params = new Proxy(new URLSearchParams(window.location.search), {
             get: (searchParams, prop) => searchParams.get(prop),
         })
