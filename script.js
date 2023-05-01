@@ -24,7 +24,7 @@ async function checkAuth(authFor,id) {
 }
 
 //load add ref form
-async ()=>{
+async function loadAddRefForm() {
     console.log(accessToken)
     //displays err for not being logged in
     if (!accessToken) {
@@ -74,6 +74,7 @@ async ()=>{
        }
     }
 }
+loadAddRefForm()
 
 
 function createTopCat(cat) {
