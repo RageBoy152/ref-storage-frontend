@@ -510,7 +510,7 @@ async function showAddRef() {
     userId = discordData.id
 
     //checks user authority
-    const authorityResRaw = fetch(`${backendURL}/authorityCheck?type=publisher&userId=${userId}`)
+    const authorityResRaw = await fetch(`${backendURL}/authorityCheck?type=publisher&userId=${userId}`)
     const authorityRes = await authorityResRaw.json()
     if (authorityRes.status == 'err') {
         //displays err for incorrect authority
