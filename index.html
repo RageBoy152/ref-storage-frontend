@@ -121,18 +121,32 @@
     <script type="module">import Octokit from "https://cdn.skypack.dev/octokit"</script>
     <script src="script.js"></script>
     <script>
-        async function getServer404() {
-            await fetch('https://ref-storage-api.onrender.com').then(res=>{
-                console.log(res)
-                if (res.status == 404) {
-                    document.getElementById('refs-container').innerHTML = '
-                        <div class="no-content-msg">
-                            <p class="display-6 fs-2 text-center mt-3">The server is down :( <br> Please try again in 2 minutes.</p>
-                        </div>'
-                }
-            })
+        function chk(target, times, delay) {
+            return new Promise((res, rej) => {                       // return a promise
+
+                (function rec(i) {                                   // recursive IIFE
+                    fetch(target, {mode: 'no-cors'}).then((r) => {   // fetch the resourse
+                        res(r);                                      // resolve promise if success
+                    }).catch( err => {
+                        if (times === 0)                             // if number of tries reached
+                            return rej(err);                         // don't try again
+
+                        setTimeout(() => rec(--times), delay )       // otherwise, wait and try 
+                    });                                              // again until no more tries
+                })(times);
+
+            });
         }
-        getServer404()
+
+        chk('https://ref-storage-api.onrender.com', 3, 1000).then( image => {
+            console.log("fine")
+        }).catch( err => {
+            document.getElementById('refs-container').innerHTML = '
+            <div class="no-content-msg">
+                <p class="display-6 fs-2 text-center mt-3">The server is down :( <br> Please try again in 2 minutes.</p>
+            </div>'
+        });
+        
         const params = new Proxy(new URLSearchParams(window.location.search), {
             get: (searchParams, prop) => searchParams.get(prop),
         })
