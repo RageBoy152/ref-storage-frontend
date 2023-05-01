@@ -52,9 +52,7 @@ async function loadAddRefForm() {
             document.getElementById('add-ref-modal-body').innerHTML = `
                 <p>Only ref contributors can upload refs! If you want to be a contributor please visit <a onclick="showModal(this.innerText)" href="#" data-bs-dismiss="modal">Become a Contributor</a></p>
             `
-            document.getElementById('add-ref-modal-footer').innerHTML = `
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            `
+            document.getElementById('add-ref-modal-footer').remove()
         }   else if (publishAuth == 'authorized') {
                 const addRefAuthorisedContentRaw = await fetch('https://raw.githubusercontent.com/RageBoy152/ref-storage-frontend/main/modals/Add%20Ref.html')
                 const addRefAuthorisedContent = await addRefAuthorisedContentRaw.json()
