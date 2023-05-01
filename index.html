@@ -123,6 +123,7 @@
     <script>
         async function getServer404() {
             await fetch('https://ref-storage-api.onrender.com').then(res=>{
+                console.log(res)
                 if (res.status == 404) {
                     document.getElementById('refs-container').innerHTML = '
                         <div class="no-content-msg">
@@ -144,22 +145,22 @@
                     <li class="breadcrumb-item active" aria-current="page">${params.search_query}</li>
                 </ol>
                 `
-        }   else if (params.search == 'false') {
-            if (params.underTopCat == null || params.underSubCat == null || params.refCategory == null) {
-            document.getElementById('breadcrumb').style.display = 'none'
-            }
+        }   else if (params.search == 'false' || params.search == null) {
+                if (params.underTopCat == null || params.underSubCat == null || params.refCategory == null) {
+                    document.getElementById('breadcrumb').style.display = 'none'
+                }
                 
-            else {
-                //display cat breadcrumb
-                document.getElementById('breadcrumb').innerHTML = `
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item">${params.underTopCat}</li>
-                    <li class="breadcrumb-item">${params.underSubCat}</li>
-                    <li class="breadcrumb-item active" aria-current="page">${params.refCategory}</li>
-                </ol>
-                `
+                else {
+                    //display cat breadcrumb
+                    document.getElementById('breadcrumb').innerHTML = `
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">${params.underTopCat}</li>
+                        <li class="breadcrumb-item">${params.underSubCat}</li>
+                        <li class="breadcrumb-item active" aria-current="page">${params.refCategory}</li>
+                    </ol>
+                    `
+                }
             }
-        }
         
     </script>
 </body>
