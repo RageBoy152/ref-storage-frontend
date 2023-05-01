@@ -25,7 +25,6 @@ async function checkAuth(authFor,id) {
 
 //load add ref form
 async function loadAddRefForm() {
-    console.log(accessToken)
     //displays err for not being logged in
     if (!accessToken) {
         document.getElementById('add-ref-modal-body').innerHTML = `
