@@ -50,7 +50,7 @@ async function loadAddRefForm() {
         if (publishAuth == 'not authorized') {
             //displays err for incorrect authority
             document.getElementById('add-ref-modal-body').innerHTML = `
-                <p>You don't have authorisation to uplaod references. | If you want to upload an image, visit <button type="button" onclick="showModal(this.innerText)" class="btn btn-primary" data-bs-dismiss="modal">Become a Contributor</button></p>
+                <p>Only ref contributors can upload refs! If you want to be a contributor please visit <a onclick="showModal(this.innerText)" href="#" data-bs-dismiss="modal">Become a Contributor</a></p>
             `
             document.getElementById('add-ref-modal-footer').innerHTML = `
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
