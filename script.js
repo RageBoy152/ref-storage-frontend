@@ -483,7 +483,17 @@ window.onload = () => {
     showNotifications()
 };
 
-
+async function checkAuth(authFor,id) {
+    const authorityResRaw = await fetch(`${backendURL}/authorityCheck?type=${authFor}&userId=${id}`)
+    const authorityRes = await authorityResRaw.json()
+    
+    if (authorityRes.status == 'ok')
+        return 'authorized'
+    else if (authorityRes.status == 'no-auth')
+        return 'not authorized'
+    else
+        return authorityRes.status
+}
 
 async function showAddRef() {
     //checks to see if logged in else displays error on modal
@@ -509,17 +519,19 @@ async function showAddRef() {
     userId = discordData.id
 
     //checks user authority
-    const authorityResRaw = await fetch(`${backendURL}/authorityCheck?type=publisher&userId=${userId}`)
-    const authorityRes = await authorityResRaw.json()
+    publishAuth = checkAuth(publisher,userId)
     
-    if (authorityRes.status == 'no-auth') {
+    if (publishAuth == 'not authorized') {
         //displays err for incorrect authority
         document.getElementById('add-ref-modal-body').innerHTML = `
             <p>You don't have authorisation to uplaod references. | If you want to upload an image, visit <a onclick="showModal(this.innerText)">Become a Contributor</a></p>
         `
         document.getElementById('add-ref-modal-btn-primary').style.display = 'none'
-    }
-}   
+    }   else if (publishAuth != 'authorized')
+        console.log(publishAuth)
+}
+
+
 
 (() => {
     'use strict'
