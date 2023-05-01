@@ -526,8 +526,13 @@ async function showAddRef() {
         document.getElementById('add-ref-modal-body').innerHTML = `
             <p>You don't have authorisation to uplaod references. | If you want to upload an image, visit <a onclick="showModal(this.innerText)">Become a Contributor</a></p>
         `
-        document.getElementById('add-ref-modal-btn-primary').style.display = 'none'
-    }   else if (publishAuth != 'authorized')
+        document.getElementById('add-ref-modal-btn-primary').innerHTML = ''
+    }   else if (publishAuth == 'authorized') {
+        const addRefAuthorisedContentRaw = await fetch('https://raw.githubusercontent.com/RageBoy152/ref-storage-frontend/main/modals/Add%20Ref.html')
+        const addRefAuthorisedContent = await addRefAuthorisedContentRaw.json()
+        console.log(addRefAuthorisedContentRaw,addRefAuthorisedContent)
+        document.getElementById('add-ref-modal-body').innerHTML = addRefAuthorisedContent
+    }   else
         console.log(publishAuth)
 }
 
