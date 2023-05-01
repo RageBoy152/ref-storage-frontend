@@ -29,7 +29,8 @@ async ()=>{
     //displays err for not being logged in
     if (!accessToken) {
         document.getElementById('add-ref-modal-body').innerHTML = `
-            <p>You must be logged in with an authorized account to upload a ref.</p>
+            <p>You must be logged in with an authorized account to upload a ref.</p>`
+        document.getElementById('add-ref-modal-footer').innerHTML = `
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button id="add-ref-modal-btn-primary" onclick="window.location = 'https://discord.com/api/oauth2/authorize?client_id=1102411465484410891&redirect_uri=https%3A%2F%2Fref-storage.netlify.app%2F&response_type=token&scope=identify'" class="btn btn-primary">Login</button>
         `
@@ -50,6 +51,8 @@ async ()=>{
             //displays err for incorrect authority
             document.getElementById('add-ref-modal-body').innerHTML = `
                 <p>You don't have authorisation to uplaod references. | If you want to upload an image, visit <button type="button" onclick="showModal(this.innerText)" class="btn btn-primary" data-bs-dismiss="modal">Become a Contributor</button></p>
+            `
+            document.getElementById('add-ref-modal-footer').innerHTML = `
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             `
         }   else if (publishAuth == 'authorized') {
@@ -58,9 +61,17 @@ async ()=>{
                 console.log(addRefAuthorisedContentRaw,addRefAuthorisedContent)
                 document.getElementById('add-ref-modal-body').innerHTML = addRefAuthorisedContent
                 document.getElementById('add-ref-modal-body').classList.add('authorised-to-add-ref')
+                document.getElementById('add-ref-modal-footer').innerHTML = `
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="add-ref-modal-btn-primary" type="submit" class="btn btn-primary">Add Ref</button>
+                </form>
+                `
             }
-       else 
+       else {
             console.log(publishAuth)
+            document.getElementById('add-ref-modal-body').innerHTML = `<p>Sorry, an error occured whilst loading this form. <br> Error: ${publishAuth}</p>`
+            document.getElementById('add-ref-modal-footer').innerHTML = `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>`
+       }
     }
 }
 
