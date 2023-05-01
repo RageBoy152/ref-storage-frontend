@@ -125,7 +125,6 @@
         const params = new Proxy(new URLSearchParams(window.location.search), {
             get: (searchParams, prop) => searchParams.get(prop),
         })
-        console.log(params.search)
         if (params.search == 'true') {
                 //display search breadcrumb
                 document.getElementById('breadcrumb').style.display = 'block'
@@ -138,12 +137,10 @@
         }   else if (params.search == 'false' || params.search == null) {
                 if (params.underTopCat == null || params.underSubCat == null || params.refCategory == null) {
                     document.getElementById('breadcrumb').style.display = 'none'
-                    console.log("issue")
                 }
                 
                 else {
                     //display cat breadcrumb
-                    console.log("should be working if u see this")
                     document.getElementById('breadcrumb').innerHTML = `
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">${params.underTopCat}</li>
