@@ -513,7 +513,7 @@ async function showAddRef() {
     console.log(authorityResRaw)
     const authorityRes = await authorityResRaw.json()
     console.log(authorityRes)
-    if (authorityRes.status == 'err') {
+    if (authorityRes.json.status == 'no-auth') {
         //displays err for incorrect authority
         document.getElementById('add-ref-modal-body').innerHTML = `
             <p>You don't have authorisation to uplaod references. | If you want to upload an image, visit <a onclick="showModal(this.innerText)">Become a Contributor</a></p>
