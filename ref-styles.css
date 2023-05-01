@@ -138,7 +138,7 @@ textarea#feedback::-webkit-scrollbar-thumb {background-color: var(--side-nav-col
 
 
 .uplaoder-container img {
-    width: 6vh;
+    width: 4vh;
     margin-left: 0.5vw;
     border-radius: 100%;
 }
