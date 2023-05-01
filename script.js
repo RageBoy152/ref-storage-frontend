@@ -495,8 +495,8 @@ async function showAddRef() {
         document.getElementById('add-ref-modal-body').innerHTML = `
             <p>You must be logged in to upload a ref.</p>
         `
-        document.getElementById('add-ref-modal-btn-primary').onclick = ()=>{window.location = '#'}
-        document.getElementById('add-ref-modal-btn-primary').innerHTML = '<s>Login</s> (coming in v1.1)'
+        document.getElementById('add-ref-modal-btn-primary').onclick = ()=>{window.location = 'https://discord.com/api/oauth2/authorize?client_id=1102411465484410891&redirect_uri=https%3A%2F%2Fref-storage.netlify.app%2F&response_type=token&scope=identify'}
+        document.getElementById('add-ref-modal-btn-primary').innerHTML = 'Login'
     }
 
     //get uesr id from discord
@@ -510,6 +510,7 @@ async function showAddRef() {
 
     //checks user authority
     const authorityResRaw = await fetch(`${backendURL}/authorityCheck?type=publisher&userId=${userId}`)
+    console.log(authorityResRaw)
     const authorityRes = await authorityResRaw.json()
     console.log(authorityRes)
     if (authorityRes.status == 'err') {
