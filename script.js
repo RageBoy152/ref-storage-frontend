@@ -219,7 +219,6 @@ async function getRefs() {
 
     for (let i=0;i<refs.length;i++) {
         //get uploader info from discord
-        console.log(refs[i].uploadedBy)
         const res = await fetch(`${backendURL}/discordUser?userId=${refs[i].uploadedBy}`)
         var userInfo = await res.json()
         if (userInfo.status=='no auth token!') {
