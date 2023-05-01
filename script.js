@@ -7,12 +7,36 @@ function setAttributes(el, attrs) {
     }
   }
 
+async function checkAuth(authFor,id) {
+    const authorityResRaw = await fetch(`${backendURL}/authorityCheck?type=${authFor}&userId=${id}`)
+    const authorityRes = await authorityResRaw.json()
+    
+    if (authorityRes.status == 'ok')
+        return 'authorized'
+    else if (authorityRes.status == 'no-auth')
+        return 'not authorized'
+    else
+        return authorityRes.status
+}
+
 //load add ref form
 async ()=>{
-const addRefAuthorisedContentRaw = await fetch('https://raw.githubusercontent.com/RageBoy152/ref-storage-frontend/main/modals/Add%20Ref.html')
+    publishAuth = await checkAuth('publisher',userId)
+    
+    if (publishAuth == 'not authorized') {
+        //displays err for incorrect authority
+        document.getElementById('add-ref-modal-body').innerHTML = `
+            <p>You don't have authorisation to uplaod references. | If you want to upload an image, visit <a onclick="showModal(this.innerText)">Become a Contributor</a></p>
+        `
+    }   else if (publishAuth == 'authorized') {
+        const addRefAuthorisedContentRaw = await fetch('https://raw.githubusercontent.com/RageBoy152/ref-storage-frontend/main/modals/Add%20Ref.html')
         const addRefAuthorisedContent = await addRefAuthorisedContentRaw.json()
         console.log(addRefAuthorisedContentRaw,addRefAuthorisedContent)
         document.getElementById('add-ref-modal-body').innerHTML = addRefAuthorisedContent
+        document.getElementById('add-ref-modal-body').classList.add('authorised-to-add-ref')
+    }
+    else 
+        console.log(publishAuth)
 }
 
 
@@ -83,11 +107,13 @@ function noRefMsg(type) {
 
 function displayFinalLinks(finalLink, subCat,topCat) {
     //add ref form dropdown
-    select = document.getElementById('refCategorySelect')
-    option = document.createElement('option')
-    option.innerText = `${topCat} > ${subCat} > ${finalLink}`
-    option.value = finalLink
-    select.appendChild(option)
+    if (document.getElementById('add-ref-modal-body').classList.contains('authorised-to-add-ref')) {
+        select = document.getElementById('refCategorySelect')
+        option = document.createElement('option')
+        option.innerText = `${topCat} > ${subCat} > ${finalLink}`
+        option.value = finalLink
+        select.appendChild(option)
+    }
 
     //get subCat ontop
     subCatContainer = document.getElementById(topCat.toLowerCase().replace(/\s/g, "")+'>'+subCat.toLowerCase().replace(/\s/g, ""))
@@ -492,17 +518,7 @@ window.onload = () => {
     showNotifications()
 };
 
-async function checkAuth(authFor,id) {
-    const authorityResRaw = await fetch(`${backendURL}/authorityCheck?type=${authFor}&userId=${id}`)
-    const authorityRes = await authorityResRaw.json()
-    
-    if (authorityRes.status == 'ok')
-        return 'authorized'
-    else if (authorityRes.status == 'no-auth')
-        return 'not authorized'
-    else
-        return authorityRes.status
-}
+
 
 async function showAddRef() {
     //checks to see if logged in else displays error on modal
