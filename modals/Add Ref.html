@@ -1,0 +1,33 @@
+              <form class="add-ref-form needs-validation" novalidate>
+                <div class="form-floating mb-3">
+                    <input required type="text" class="form-control" id="title" placeholder="Title">
+                    <label for="title">Title</label>
+                    <div class="invalid-feedback">
+                        Please provide a title
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="desc" placeholder="Descripiton" autocomplete="off">
+                    <label for="desc">Description (optional)</label>
+                </div>
+                <div class="mb-3">
+                    <select id="refCategorySelect" class="form-select" aria-label="Default select example" required>
+                        <option value="" selected>Category</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a category
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="img" class="form-label">Image</label>
+                    <input type="file" name="image" class="form-control" id="img" accept=".jpg,.png,.jpeg,.gif" required>
+                    <div class="invalid-feedback">
+                        Please upload a reference image
+                    </div>
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="add-ref-modal-btn-primary" type="submit" class="btn btn-primary">Add Ref</button>
+                </div>
+            </form>
