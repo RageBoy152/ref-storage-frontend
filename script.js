@@ -566,14 +566,14 @@ async function addRef(form) {
     const fragment = new URLSearchParams(window.location.hash.slice(1));
     const [accessToken, tokenType] = [fragment.get('access_token'), fragment.get('token_type')];
 
-    // const discordRes = await fetch('https://discord.com/api/users/@me', {
-    //     headers: {
-    //         authorization: `${tokenType} ${accessToken}`,
-    //     },
-    // })
-    // const discordData = await discordRes.json()
-    // userId = discordData.id
-    userId = '693191740961718420'
+    const discordRes = await fetch('https://discord.com/api/users/@me', {
+        headers: {
+            authorization: `${tokenType} ${accessToken}`,
+        },
+    })
+    const discordData = await discordRes.json()
+    userId = discordData.id
+    // userId = '693191740961718420'
 
 
     //img
