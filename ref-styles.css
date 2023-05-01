@@ -10,6 +10,8 @@
 
 body {overflow: hidden;}
 html {scroll-behavior: smooth;}
+
+
 #main {overflow-y: scroll;}
 
 #main-top-nav a {
