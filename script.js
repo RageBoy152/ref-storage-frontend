@@ -511,6 +511,7 @@ async function showAddRef() {
     //checks user authority
     const authorityResRaw = await fetch(`${backendURL}/authorityCheck?type=publisher&userId=${userId}`)
     const authorityRes = await authorityResRaw.json()
+    console.log(authorityRes)
     if (authorityRes.status == 'err') {
         //displays err for incorrect authority
         document.getElementById('add-ref-modal-body').innerHTML = `
