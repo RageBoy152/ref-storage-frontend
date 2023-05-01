@@ -48,7 +48,8 @@ async ()=>{
         if (publishAuth == 'not authorized') {
             //displays err for incorrect authority
             document.getElementById('add-ref-modal-body').innerHTML = `
-                <p>You don't have authorisation to uplaod references. | If you want to upload an image, visit <a onclick="showModal(this.innerText)">Become a Contributor</a></p>
+                <p>You don't have authorisation to uplaod references. | If you want to upload an image, visit <button type="button" onclick="showModal(this.innerText)" class="btn btn-primary" data-bs-dismiss="modal">Become a Contributor</button></p>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             `
         }   else if (publishAuth == 'authorized') {
                 const addRefAuthorisedContentRaw = await fetch('https://raw.githubusercontent.com/RageBoy152/ref-storage-frontend/main/modals/Add%20Ref.html')
