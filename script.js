@@ -1,6 +1,10 @@
 const backendURL = 'https://ref-storage-api.onrender.com'
 //const backendURL = 'http:localhost:3001'
 
+//discord log in stuff
+const fragment = new URLSearchParams(window.location.hash.slice(1));
+const [accessToken, tokenType] = [fragment.get('access_token'), fragment.get('token_type')];
+
 function setAttributes(el, attrs) {
     for(var key in attrs) {
       el.setAttribute(key, attrs[key]);
@@ -21,22 +25,41 @@ async function checkAuth(authFor,id) {
 
 //load add ref form
 async ()=>{
-    publishAuth = await checkAuth('publisher',userId)
-    
-    if (publishAuth == 'not authorized') {
-        //displays err for incorrect authority
+    //displays err for not being logged in
+    if (!accessToken) {
         document.getElementById('add-ref-modal-body').innerHTML = `
-            <p>You don't have authorisation to uplaod references. | If you want to upload an image, visit <a onclick="showModal(this.innerText)">Become a Contributor</a></p>
+            <p>You must be logged in to upload a ref.</p>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="add-ref-modal-btn-primary" onclick="window.location = 'https://discord.com/api/oauth2/authorize?client_id=1102411465484410891&redirect_uri=https%3A%2F%2Fref-storage.netlify.app%2F&response_type=token&scope=identify'" class="btn btn-primary">Login</button>
         `
-    }   else if (publishAuth == 'authorized') {
-        const addRefAuthorisedContentRaw = await fetch('https://raw.githubusercontent.com/RageBoy152/ref-storage-frontend/main/modals/Add%20Ref.html')
-        const addRefAuthorisedContent = await addRefAuthorisedContentRaw.json()
-        console.log(addRefAuthorisedContentRaw,addRefAuthorisedContent)
-        document.getElementById('add-ref-modal-body').innerHTML = addRefAuthorisedContent
-        document.getElementById('add-ref-modal-body').classList.add('authorised-to-add-ref')
     }
-    else 
-        console.log(publishAuth)
+    else {
+        //get uesr id from discord
+        const discordRes = await fetch('https://discord.com/api/users/@me', {
+            headers: {
+                authorization: `${tokenType} ${accessToken}`,
+            },
+        })
+        const discordData = await discordRes.json()
+        userId = discordData.id
+    
+        publishAuth = await checkAuth('publisher',userId)
+    
+        if (publishAuth == 'not authorized') {
+            //displays err for incorrect authority
+            document.getElementById('add-ref-modal-body').innerHTML = `
+                <p>You don't have authorisation to uplaod references. | If you want to upload an image, visit <a onclick="showModal(this.innerText)">Become a Contributor</a></p>
+            `
+        }   else if (publishAuth == 'authorized') {
+                const addRefAuthorisedContentRaw = await fetch('https://raw.githubusercontent.com/RageBoy152/ref-storage-frontend/main/modals/Add%20Ref.html')
+                const addRefAuthorisedContent = await addRefAuthorisedContentRaw.json()
+                console.log(addRefAuthorisedContentRaw,addRefAuthorisedContent)
+                document.getElementById('add-ref-modal-body').innerHTML = addRefAuthorisedContent
+                document.getElementById('add-ref-modal-body').classList.add('authorised-to-add-ref')
+            }
+       else 
+            console.log(publishAuth)
+    }
 }
 
 
@@ -238,9 +261,6 @@ async function getRefs() {
     }
 
     //get logged in users info from discord
-    const fragment = new URLSearchParams(window.location.hash.slice(1));
-    const [accessToken, tokenType] = [fragment.get('access_token'), fragment.get('token_type')];
-
     loggedInUserInfo = {}
     if (accessToken) {
         const loggedInUserRes = await fetch('https://discord.com/api/users/@me', {
@@ -517,45 +537,6 @@ window.onload = () => {
     //handle notifications
     showNotifications()
 };
-
-
-
-async function showAddRef() {
-    //checks to see if logged in else displays error on modal
-    const fragment = new URLSearchParams(window.location.hash.slice(1));
-    const [accessToken, tokenType] = [fragment.get('access_token'), fragment.get('token_type')];
-
-    //displays err for not being logged in
-    if (!accessToken) {
-        document.getElementById('add-ref-modal-body').innerHTML = `
-            <p>You must be logged in to upload a ref.</p>
-        `
-        document.getElementById('add-ref-modal-btn-primary').onclick = ()=>{window.location = 'https://discord.com/api/oauth2/authorize?client_id=1102411465484410891&redirect_uri=https%3A%2F%2Fref-storage.netlify.app%2F&response_type=token&scope=identify'}
-        document.getElementById('add-ref-modal-btn-primary').innerHTML = 'Login'
-    }
-
-    //get uesr id from discord
-    const discordRes = await fetch('https://discord.com/api/users/@me', {
-        headers: {
-            authorization: `${tokenType} ${accessToken}`,
-        },
-    })
-    const discordData = await discordRes.json()
-    userId = discordData.id
-
-    //checks user authority
-    publishAuth = await checkAuth('publisher',userId)
-    
-    if (publishAuth == 'not authorized') {
-        //displays err for incorrect authority
-        document.getElementById('add-ref-modal-body').innerHTML = `
-            <p>You don't have authorisation to uplaod references. | If you want to upload an image, visit <a onclick="showModal(this.innerText)">Become a Contributor</a></p>
-        `
-        document.getElementById('add-ref-modal-btn-primary').innerHTML = ''
-    }   else if (publishAuth != 'authorized')
-        console.log(publishAuth)
-}
-
 
 
 (() => {
