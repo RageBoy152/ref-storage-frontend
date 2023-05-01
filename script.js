@@ -519,7 +519,7 @@ async function showAddRef() {
     userId = discordData.id
 
     //checks user authority
-    publishAuth = checkAuth(publisher,userId)
+    publishAuth = checkAuth('publisher',userId)
     
     if (publishAuth == 'not authorized') {
         //displays err for incorrect authority
