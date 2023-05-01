@@ -25,16 +25,17 @@ async function checkAuth(authFor,id) {
 
 //load add ref form
 async ()=>{
+    console.log(accessToken)
     //displays err for not being logged in
     if (!accessToken) {
         document.getElementById('add-ref-modal-body').innerHTML = `
-            <p>You must be logged in to upload a ref.</p>
+            <p>You must be logged in with an authorized account to upload a ref.</p>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button id="add-ref-modal-btn-primary" onclick="window.location = 'https://discord.com/api/oauth2/authorize?client_id=1102411465484410891&redirect_uri=https%3A%2F%2Fref-storage.netlify.app%2F&response_type=token&scope=identify'" class="btn btn-primary">Login</button>
         `
     }
     else {
-        //get uesr id from discord
+        //get user id from discord
         const discordRes = await fetch('https://discord.com/api/users/@me', {
             headers: {
                 authorization: `${tokenType} ${accessToken}`,
