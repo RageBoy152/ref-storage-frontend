@@ -517,6 +517,12 @@ function displayCats(data) {
 }
 
 async function getCats() {
+    //loading msg
+    document.getElementById('refs-container').innerHTML = '
+        <div class="no-content-msg">
+            <p class="display-6 fs-2 text-center mt-3">Loading...</p>
+        </div>'
+                                                                            
     const response = await fetch(`${backendURL}/categories`)
     const catData = JSON.parse(await response.json())
 
