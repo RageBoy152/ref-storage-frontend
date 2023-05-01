@@ -474,7 +474,6 @@ window.onload = () => {
         })
         .then(result => result.json())
         .then(response => {
-            console.log(response)
             document.getElementById('loggedInPfp').src = `https://cdn.discordapp.com/avatars/${response.id}/${response.avatar}?size=1024`
         })
         .catch(console.error);
