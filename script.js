@@ -15,7 +15,6 @@ async function checkAuth(authFor,id) {
     const authorityResRaw = await fetch(`${backendURL}/authorityCheck?type=${authFor}&userId=${id}`)
     const authorityRes = await authorityResRaw.json()
     
-    console.log(authorityRes)
     
     if (authorityRes.status == 'ok')
         return 'authorized'
@@ -47,6 +46,8 @@ async function loadAddRefForm() {
         userId = discordData.id
     
         publishAuth = await checkAuth('publisher',userId)
+        
+        console.log(publishAuth)
     
         if (publishAuth == 'not authorized') {
             //displays err for incorrect authority
@@ -56,8 +57,10 @@ async function loadAddRefForm() {
             document.getElementById('add-ref-modal-footer').remove()
         }   else if (publishAuth == 'authorized') {
                 const addRefAuthorisedContentRaw = await fetch('https://raw.githubusercontent.com/RageBoy152/ref-storage-frontend/main/modals/Add%20Ref.html')
+                console.log(addRefAuthorisedContentRaw)
                 const addRefAuthorisedContent = await addRefAuthorisedContentRaw.json()
-                console.log(addRefAuthorisedContentRaw,addRefAuthorisedContent)
+                console.log(addRefAuthorisedContent)
+            
                 document.getElementById('add-ref-modal-body').innerHTML = addRefAuthorisedContent
                 document.getElementById('add-ref-modal-body').classList.add('authorised-to-add-ref')
                 document.getElementById('add-ref-modal-footer').innerHTML = `
