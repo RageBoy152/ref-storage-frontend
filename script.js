@@ -578,7 +578,6 @@ function submitAddRefForm() {
       },false)
     })
   }
-)
 
 async function addRef(form) {
     //close modal
