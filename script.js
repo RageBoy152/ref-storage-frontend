@@ -141,7 +141,6 @@ function noRefMsg(type) {
 
 function displayFinalLinks(finalLink, subCat,topCat) {
     //add ref form dropdown
-    console.log(document.getElementById('add-ref-modal-body'))
     if (document.getElementById('add-ref-modal-body').classList.contains('authorised-to-add-ref')) {
         select = document.getElementById('refCategorySelect')
         option = document.createElement('option')
