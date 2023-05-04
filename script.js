@@ -15,6 +15,8 @@ async function checkAuth(authFor,id) {
     const authorityResRaw = await fetch(`${backendURL}/authorityCheck?type=${authFor}&userId=${id}`)
     const authorityRes = await authorityResRaw.json()
     
+    console.log(authorityRes)
+    
     if (authorityRes.status == 'ok')
         return 'authorized'
     else if (authorityRes.status == 'no-auth')
