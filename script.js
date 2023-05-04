@@ -47,7 +47,6 @@ async function loadAddRefForm() {
     
         publishAuth = await checkAuth('publisher',userId)
         
-        console.log(publishAuth)
     
         if (publishAuth == 'not authorized') {
             //displays err for incorrect authority
@@ -57,8 +56,8 @@ async function loadAddRefForm() {
             document.getElementById('add-ref-modal-footer').remove()
         }   else if (publishAuth == 'authorized') {
                 const addRefAuthorisedContentRaw = await fetch('https://raw.githubusercontent.com/RageBoy152/ref-storage-frontend/main/modals/Add%20Ref.html')
-                console.log(addRefAuthorisedContentRaw)
-                const addRefAuthorisedContent = await addRefAuthorisedContentRaw.json()
+                console.log(addRefAuthorisedContentRaw.json)
+                const addRefAuthorisedContent = await addRefAuthorisedContentRaw.body
                 console.log(addRefAuthorisedContent)
             
                 document.getElementById('add-ref-modal-body').innerHTML = addRefAuthorisedContent
