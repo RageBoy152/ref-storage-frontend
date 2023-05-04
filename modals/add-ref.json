@@ -1,5 +1,5 @@
 {
-  `html`: `<form class="add-ref-form needs-validation" novalidate>
+  'html': '<form class="add-ref-form needs-validation" novalidate>
                 <div class="form-floating mb-3">
                     <input required type="text" class="form-control" id="title" placeholder="Title">
                     <label for="title">Title</label>
@@ -26,5 +26,5 @@
                         Please upload a reference image
                     </div>
                 </div>
-`
+'
 }
