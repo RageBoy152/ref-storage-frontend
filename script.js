@@ -69,6 +69,7 @@ async function loadAddRefForm() {
             document.getElementById('add-ref-modal-footer').innerHTML = `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>`
        }
     }
+    getCats()
 }
 loadAddRefForm()
 
@@ -140,6 +141,7 @@ function noRefMsg(type) {
 
 function displayFinalLinks(finalLink, subCat,topCat) {
     //add ref form dropdown
+    console.log(document.getElementById('add-ref-modal-body'))
     if (document.getElementById('add-ref-modal-body').classList.contains('authorised-to-add-ref')) {
         select = document.getElementById('refCategorySelect')
         option = document.createElement('option')
@@ -523,7 +525,7 @@ async function getCats() {
 
     displayCats(catData)
 }
-getCats()
+
 
 
 //handles logged in status
