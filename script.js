@@ -59,7 +59,7 @@ async function loadAddRefForm() {
                 document.getElementById('add-ref-modal-body').classList.add('authorised-to-add-ref')
                 document.getElementById('add-ref-modal-footer').innerHTML = `
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button id="add-ref-modal-btn-primary" type="submit" class="btn btn-primary">Add Ref</button>
+                <button id="add-ref-modal-btn-primary" type="submit" class="btn btn-primary" onclick="submitAddRefForm()">Add Ref</button>
                 </form>
                 `
             }
@@ -552,7 +552,7 @@ window.onload = () => {
 };
 
 
-(() => {
+function submitAddRefForm() => {
     'use strict'
   
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -577,7 +577,8 @@ window.onload = () => {
         form.classList.add('was-validated')
       },false)
     })
-  })()
+  }
+)
 
 async function addRef(form) {
     //close modal
