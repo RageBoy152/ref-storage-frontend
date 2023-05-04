@@ -504,8 +504,10 @@ function displayCats(data) {
     const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
     })
-    if ((params.search == null || params.search == 'false') && (params.underTopCat==null || params.underSubCat==null || params.refCategory==null))
+    if ((params.search == null || params.search == 'false') && (params.underTopCat==null || params.underSubCat==null || params.refCategory==null)) {
+        document.getElementById('refs-container').innerHTML = ''  //hide loading msg
         noRefMsg(1) //default, no search or cat
+    }
     else if (params.underTopCat != null && params.underSubCat != null && params.refCategory != null)
         getRefs()   //after category is selected
     else if (params.search == 'true') {
