@@ -56,11 +56,9 @@ async function loadAddRefForm() {
             document.getElementById('add-ref-modal-footer').remove()
         }   else if (publishAuth == 'authorized') {
                 const addRefAuthorisedContentRaw = await fetch('https://raw.githubusercontent.com/RageBoy152/ref-storage-frontend/main/modals/Add%20Ref.html')
-                console.log(addRefAuthorisedContentRaw.toString())
-                const addRefAuthorisedContent = await addRefAuthorisedContentRaw
-                console.log(addRefAuthorisedContent)
+                const addRefAuthorisedContent = await addRefAuthorisedContentRaw.json()
             
-                document.getElementById('add-ref-modal-body').innerHTML = addRefAuthorisedContent
+                document.getElementById('add-ref-modal-body').innerHTML = addRefAuthorisedContent.html
                 document.getElementById('add-ref-modal-body').classList.add('authorised-to-add-ref')
                 document.getElementById('add-ref-modal-footer').innerHTML = `
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
