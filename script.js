@@ -55,7 +55,9 @@ async function loadAddRefForm() {
             `
             document.getElementById('add-ref-modal-footer').remove()
         }   else if (publishAuth == 'authorized') {
-                const addRefAuthorisedContentRaw = await fetch('https://raw.githubusercontent.com/RageBoy152/ref-storage-frontend/main/modals/add-ref.json')
+                const addRefAuthorisedContentRaw = await fetch('https://raw.githubusercontent.com/RageBoy152/ref-storage-frontend/main/modals/add-ref.html')
+                console.log(addRefAuthorisedContentRaw)
+                console.log(JSON.stringify(addRefAuthorisedContentRaw))
                 const addRefAuthorisedContent = await addRefAuthorisedContentRaw.json()
             
                 document.getElementById('add-ref-modal-body').innerHTML = addRefAuthorisedContent.html
