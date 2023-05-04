@@ -56,10 +56,12 @@ async function loadAddRefForm() {
             document.getElementById('add-ref-modal-footer').remove()
         }   else if (publishAuth == 'authorized') {
                 $('#add-ref-modal-body').load('modals/add-ref.html')
+                document.getElementById('add-ref-modal-body').innerHTML += '<input type="submit" value="add ref">'
+                
                 document.getElementById('add-ref-modal-body').classList.add('authorised-to-add-ref')
                 document.getElementById('add-ref-modal-footer').innerHTML = `
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button id="add-ref-modal-btn-primary" type="submit" class="btn btn-primary" onclick="submitAddRefForm()">Add Ref</button>
+                <button id="add-ref-modal-btn-primary" type="submit" class="btn btn-primary">Add Ref</button>
                 </form>
                 `
             }
@@ -552,7 +554,7 @@ window.onload = () => {
 };
 
 
-function submitAddRefForm() {
+(()=>{
     'use strict'
   
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -565,19 +567,19 @@ function submitAddRefForm() {
           event.preventDefault()
           event.stopPropagation()
         }
-
-        if (form.classList.contains('add-ref-form')&&form.checkValidity()) {
-            //wtf why refresh
-            event.preventDefault()
-            addRef(form)
-            event.preventDefault()
-            return false;
-        }
+          
+    if (form.classList.contains('add-ref-form')&&form.checkValidity()) {
+        event.preventDefault()
+        addRef(form)
+        event.preventDefault()
+        return false;
+    }
   
         form.classList.add('was-validated')
       },false)
     })
   }
+ )()
 
 async function addRef(form) {
     //close modal
